@@ -18,7 +18,7 @@ app = Flask(__name__)
 class Twitter():
     def __init__(self):
         self.id = None
-        self.url = 'https://twitter2tg.herokuapp.com'
+        self.url = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
         self.bearer_token = None
 
         r = requests.post('https://api.twitter.com/oauth2/token', auth=(os.environ['API_KEY'], os.environ['API_SECRET']))
@@ -53,6 +53,10 @@ class Twitter():
 @app.route('/')
 def index():
     return 'Hello World!'
+
+#app.route('/webhook/twitter')
+def webhook_twitter():
+    pass
 
 if __name__ == '__main__':
     # register webhook for twitter while startup
