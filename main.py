@@ -24,6 +24,7 @@ class Twitter():
         r = requests.post('https://api.twitter.com/oauth2/token', auth=(os.environ['API_KEY'], os.environ['API_SECRET']))
         if r.status_code == requests.codes.ok:
             logger.info(r.text)
+            print(r.text)
             self.bearer_token = json.loads(r.text)['access_token']
 
         param = {'url': self.url}
@@ -31,6 +32,7 @@ class Twitter():
         r = requests.post('https://api.twitter.com/1.1/account_activity/all/dev/webhooks.json', param=param, header=header)
         if r.status_code == requests.codes.ok:
             logger.info(r.text)
+            print(r.text)
             j = json.loads(r.text)
             self.id = j.id
 
@@ -39,6 +41,7 @@ class Twitter():
         r = requests.post('https://api.twitter.com/1.1/account_activity/all/dev/webhooks.json', param=param, header=header)
         if r.status_code == requests.codes.ok:
             logger.info(r.text)
+            print(r.text)
         
         # TODO Testing
         header = {'authorization:': 'OAuth oauth_consumer_key="{}", oauth_nonce="GENERATED", oauth_signature="GENERATED", oauth_signature_method="HMAC-SHA1", oauth_timestamp="GENERATED", oauth_token="{}", oauth_version="1.0"'.format(os.environ['API_KEY'], os.environ['ACCESS_TOKEN'])}
