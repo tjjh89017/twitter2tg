@@ -8,6 +8,8 @@ import json
 import requests
 import hmac
 import hashlib
+import threading
+import time
 
 from http import HTTPStatus
 from flask import Flask, request
@@ -32,7 +34,8 @@ class Twitter():
         self.url = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
 
         self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-        
+
+    def start_webhook(self):
         # init webhook
         r = self.api.request('account_activity/all/:dev/webhooks', {'url': self.url})
         logger.info("init webhook")
@@ -43,6 +46,9 @@ class Twitter():
         r = self.api.request('account_activity/all/webhooks')
         logger.info(r.status_code)
         logger.info(r.text)
+
+    def get_api(self):
+        return self.api
 
     def deinit(self):
         pass
@@ -74,6 +80,10 @@ def webhook():
     print(json.dumps(request_json, indent=4, sort_keys=True))
 
     return ('', HTTPStatus.OK)
+
+def start_webhook(api):
+    api.webhook()
+
 
 if __name__ == '__main__':
     # register webhook for twitter while startup
