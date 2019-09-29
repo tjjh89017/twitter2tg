@@ -8,6 +8,7 @@ import json
 import requests
 import hmac
 import hashlib
+import base64
 
 from http import HTTPStatus
 from flask import Flask, request

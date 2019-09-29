@@ -9,8 +9,8 @@ ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', None)
 ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET', None)
 
 #The environment name for the beta is filled below. Will need changing in future		
-ENVNAME = os.environ.get('ENVNAME', 'dev')
-WEBHOOK_URL = os.environ.get('WEBHOOK_URL', 'https://twitter2tg.herokuapp.com/webhook/twitter')
+ENVNAME = 'dev'
+WEBHOOK_URL = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
 
 twitterAPI = TwitterAPI(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
