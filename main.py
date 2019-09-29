@@ -82,8 +82,8 @@ def webhook():
     return ('', HTTPStatus.OK)
 
 def start_webhook(api):
+    time.sleep(10)
     api.start_webhook()
-
 
 if __name__ == '__main__':
     # register webhook for twitter while startup
