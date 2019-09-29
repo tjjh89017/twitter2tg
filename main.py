@@ -60,7 +60,7 @@ def webhook_crc():
     crc = request.args['crc_token']
 
     validation = hmac.new(
-        key=bytes(CONSUMER_SECRET, 'utf-8'),
+        key=bytes(API_SECRET, 'utf-8'),
         msg=bytes(crc, 'utf-8'),
         digestmod = hashlib.sha256
     )
