@@ -8,8 +8,6 @@ import json
 import requests
 import hmac
 import hashlib
-import threading
-import time
 
 from http import HTTPStatus
 from flask import Flask, request
@@ -81,13 +79,8 @@ def webhook():
 
     return ('', HTTPStatus.OK)
 
-def start_webhook(api):
-    time.sleep(10)
-    api.start_webhook()
-
 if __name__ == '__main__':
     # register webhook for twitter while startup
     twitter = Twitter()
-    threading.Thread(target=start_webhook, args=(twitter,))
     # register webhook for telegram while startup
     app.run(debug=True)
