@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import os
+import sys
 import logging
 import json
 import requests
@@ -19,7 +20,7 @@ ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET', None)
 
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+logging.basicConfig(stream=sys.stdout, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
