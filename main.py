@@ -82,11 +82,12 @@ def webhook():
     return ('', HTTPStatus.OK)
 
 def start_webhook(api):
-    api.webhook()
+    api.start_webhook()
 
 
 if __name__ == '__main__':
     # register webhook for twitter while startup
     twitter = Twitter()
+    threading.Thread(target=start_webhook, args=(twitter,))
     # register webhook for telegram while startup
     app.run(debug=True)
