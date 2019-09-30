@@ -8,7 +8,7 @@ CONSUMER_SECRET = os.environ.get('API_SECRET', None)
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', None)
 ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET', None)
 
-ENVNAME = os.environ.get('ENVNAME', 'dev')
+ENVNAME = os.environ.get('ENVNAME', 'devel')
 
 twitterAPI = TwitterAPI(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
