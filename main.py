@@ -46,8 +46,6 @@ class Twitter2tg():
     def deinit(self):
         pass
 
-twitter2tg = None
-
 @app.route('/')
 def index():
     return 'Hello World!'
@@ -86,9 +84,9 @@ def webhook():
 
     return ('', HTTPStatus.OK)
 
+# register webhook for twitter while startup
+# register telegram while startup
+twitter2tg = Twitter2tg()
+
 if __name__ == '__main__':
-    # register webhook for twitter while startup
-    # register telegram while startup
-    global twitter2tg
-    twitter2tg = Twitter2tg()
     app.run(debug=True)
