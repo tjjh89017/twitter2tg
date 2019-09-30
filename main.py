@@ -79,8 +79,8 @@ def webhook():
     favorite_events = request_json.get('favorite_events', [])
     for event in favorite_events:
         urls = set()
-        urls.update([x['url'] for x in event['favorited_status']['entities']['urls']])
-        urls.update([x['url'] for x in event['favorited_status']['entities']['media']])
+        urls.update([x['url'] for x in event['favorited_status']['entities'].get('urls', [])])
+        urls.update([x['url'] for x in event['favorited_status']['entities'].get('media'. [])])
         for url in urls:
             tg_bot.send_message(-1001347068882, url)
 
