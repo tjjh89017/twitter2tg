@@ -82,6 +82,7 @@ def webhook():
         urls.update([x['url'] for x in event['favorited_status']['entities'].get('urls', [])])
         urls.update([x['url'] for x in event['favorited_status']['entities'].get('media', [])])
         for url in urls:
+            print(url)
             tg_bot.send_message(-1001347068882, url)
 
     return ('', HTTPStatus.OK)
