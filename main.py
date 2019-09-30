@@ -14,11 +14,13 @@ from http import HTTPStatus
 from flask import Flask, request
 from TwitterAPI import TwitterAPI
 
+import telegram
+
 API_KEY = os.environ.get('API_KEY', None)
 API_SECRET = os.environ.get('API_SECRET', None)
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', None)
 ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET', None)
-
+TELEGRAM_TOEKN = os.environ.get('TELEGRAM_TOEKN', None)
 
 # Enable logging
 logging.basicConfig(stream=sys.stdout, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -27,15 +29,21 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-class Twitter():
+twitter2tg = None
+
+class Twitter2tg():
     def __init__(self):
         self.api = None
         self.url = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
 
         self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+        self.bot = telegram.Bot(TELEGRAM_TOEKN)
 
     def get_api(self):
         return self.api
+
+    def get_bot(self):
+        return self.bot
 
     def deinit(self):
         pass
@@ -63,6 +71,9 @@ def webhook_crc():
 
 @app.route('/webhook/twitter', methods=["POST"])
 def webhook():
+    global twitter2tg
+    tg_bot = twitter2tg.get_bot()
+
     request_json = request.get_json()
     logger.info('test')
     print(json.dumps(request_json, indent=2, sort_keys=True))
@@ -70,12 +81,14 @@ def webhook():
     favorite_events = request_json.get('favorite_events', [])
     for event in favorite_events:
         urls = [x['url'] for x in event['entities']['urls']]
-
+        for url in urls:
+            tg_bot.send_message(-1001347068882, url)
 
     return ('', HTTPStatus.OK)
 
 if __name__ == '__main__':
     # register webhook for twitter while startup
-    twitter = Twitter()
-    # register webhook for telegram while startup
+    # register telegram while startup
+    global twitter2tg
+    twitter2tg = Twitter2tg()
     app.run(debug=True)
