@@ -34,18 +34,6 @@ class Twitter():
 
         self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
-    def start_webhook(self):
-        # init webhook
-        r = self.api.request('account_activity/all/:dev/webhooks', {'url': self.url})
-        logger.info("init webhook")
-        logger.info(r.status_code)
-        logger.info(r.text)
-
-        # check webhook
-        r = self.api.request('account_activity/all/webhooks')
-        logger.info(r.status_code)
-        logger.info(r.text)
-
     def get_api(self):
         return self.api
 
@@ -76,7 +64,7 @@ def webhook_crc():
 @app.route('/webhook/twitter', methods=["POST"])
 def webhook():
     request_json = request.get_json()
-    print(json.dumps(request_json, indent=4, sort_keys=True))
+    print(json.dumps(request_json, indent=2, sort_keys=True))
 
     return ('', HTTPStatus.OK)
 
