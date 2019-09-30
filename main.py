@@ -29,8 +29,6 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-twitter2tg = None
-
 class Twitter2tg():
     def __init__(self):
         self.api = None
@@ -47,6 +45,8 @@ class Twitter2tg():
 
     def deinit(self):
         pass
+
+twitter2tg = None
 
 @app.route('/')
 def index():
