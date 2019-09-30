@@ -20,7 +20,7 @@ API_KEY = os.environ.get('API_KEY', None)
 API_SECRET = os.environ.get('API_SECRET', None)
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', None)
 ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET', None)
-TELEGRAM_TOEKN = os.environ.get('TELEGRAM_TOEKN', None)
+TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN', None)
 
 # Enable logging
 logging.basicConfig(stream=sys.stdout, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -35,7 +35,7 @@ class Twitter2tg():
         self.url = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
 
         self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-        self.bot = telegram.Bot(TELEGRAM_TOEKN)
+        self.bot = telegram.Bot(TELEGRAM_TOKEN)
 
     def get_api(self):
         return self.api
