@@ -34,6 +34,7 @@ class Twitter2tg():
         self.api = None
         self.url = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
         self.chat_id = -1001363258590
+        self.backup_chat_id = -1001490525541
 
         self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         self.bot = telegram.Bot(TELEGRAM_TOKEN)
@@ -46,6 +47,9 @@ class Twitter2tg():
 
     def get_chat_id(self):
         return self.chat_id
+
+    def get_backup_chat_id(self):
+        return self.backup_chat_id
 
     def deinit(self):
         pass
@@ -76,6 +80,7 @@ def webhook():
     global twitter2tg
     tg_bot = twitter2tg.get_bot()
     chat_id = twitter2tg.get_chat_id()
+    backup_chat_id = twitter2tg.get_backup_chat_id()
 
     request_json = request.get_json()
     logger.info('test')
@@ -89,6 +94,7 @@ def webhook():
         for url in urls:
             print(url)
             tg_bot.send_message(chat_id, url)
+            tg_bot.send_message(backup_chat_id, url)
 
         # upload all pics to tg
         # event['extended_entities']['media'][0]['media_url_https']
@@ -119,10 +125,10 @@ def webhook():
             for temp in temp_photos:
                 try:
                     if len(temp) == 1:
-                        tg_bot.send_photo(chat_id, temp[0])
+                        tg_bot.send_photo(backup_chat_id, temp[0])
                     else:
                         temp_media = [telegram.InputMediaPhoto(x) for x in temp]
-                        tg_bot.send_media_group(chat_id, temp_media, timeout=1000)
+                        tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
                 except:
                     pass
 
@@ -131,10 +137,10 @@ def webhook():
             for temp in temp_videos:
                 try:
                     if len(temp) == 1:
-                        tg_bot.send_document(chat_id, temp[0])
+                        tg_bot.send_document(backup_chat_id, temp[0])
                     else:
                         temp_media = [telegram.InputMediaDocument(x) for x in temp]
-                        tg_bot.send_media_group(chat_id, temp_media, timeout=1000)
+                        tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
                 except:
                     pass
         
