@@ -33,6 +33,7 @@ class Twitter2tg():
     def __init__(self):
         self.api = None
         self.url = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
+        self.chat_id = -1001363258590
 
         self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         self.bot = telegram.Bot(TELEGRAM_TOKEN)
@@ -42,6 +43,9 @@ class Twitter2tg():
 
     def get_bot(self):
         return self.bot
+
+    def get_chat_id(self):
+        return self.chat_id
 
     def deinit(self):
         pass
@@ -71,6 +75,7 @@ def webhook_crc():
 def webhook():
     global twitter2tg
     tg_bot = twitter2tg.get_bot()
+    chat_id = twitter2tg.get_chat_id()
 
     request_json = request.get_json()
     logger.info('test')
@@ -83,8 +88,50 @@ def webhook():
         urls.update([x['url'] for x in event['favorited_status']['entities'].get('media', [])])
         for url in urls:
             print(url)
-            tg_bot.send_message(-1001363258590, url)
+            tg_bot.send_message(chat_id, url)
 
+        # upload all pics to tg
+        # event['extended_entities']['media'][0]['media_url_https']
+        # video: "type": "video", event['extended_entities']['media'][0]['video_info']['variants']
+
+        # photo
+        extended_entities = event['favorited_status'].get('extended_entities', [])
+        medias = extended_entities.get('media', [])
+        photos = []
+        videos = []
+        for media in medias:
+            try:
+                if media['type'] == 'photo':
+                    photos.append(media['media_url_https'] + "?name=large")
+                elif media['type'] == 'video':
+                    videos.append(media['video_info']['variants'][0]['url'])
+            except:
+                pass
+        
+        if len(photos) >= 1:
+            temp_photos = [photos[x:x+10] for x in range(0, len(photos), 10)]
+            for temp in temp_photos:
+                try:
+                    if len(temp) == 1:
+                        tg_bot.send_photo(chat_id, temp[0])
+                    else:
+                        temp_media = [telegram.InputMediaPhoto(x) for x in temp]
+                        tg_bot.send_media_group(chat_id, temp_media, timeout=1000)
+                except:
+                    pass
+
+        if len(videos) >= 1:
+            temp_videos = [videos[x:x+10] for x in range(0, len(videos), 10)]
+            for temp in temp_videos:
+                try:
+                    if len(temp) == 1:
+                        tg_bot.send_video(chat_id, temp[0])
+                    else:
+                        temp_media = [telegram.InputMediaVideo(x) for x in temp]
+                        tg_bot.send_media_group(chat_id, temp_media, timeout=1000)
+                except:
+                    pass
+        
     return ('', HTTPStatus.OK)
 
 # register webhook for twitter while startup
