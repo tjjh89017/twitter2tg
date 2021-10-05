@@ -97,10 +97,7 @@ def webhook():
             tg_bot.send_message(backup_chat_id, url)
 
         extended_entities = event['favorited_status'].get('extended_entities', {})
-        try:
-            extended_tweet_extended_entities = event['favorited_status']['extended_tweet'].get('extended_entities', {})
-        except:
-            pass
+        extended_tweet_extended_entities = event['favorited_status'].get('extended_tweet', {}).get('extended_entities', {})
         medias = extended_entities.get('media', []) + extended_tweet_extended_entities.get('media', [])
         photos = []
         videos = []
