@@ -9,6 +9,7 @@ import requests
 import hmac
 import hashlib
 import base64
+import traceback
 
 from http import HTTPStatus
 from flask import Flask, request
@@ -113,7 +114,8 @@ def webhook():
                             large_size_video = x
                     if large_size_video['content_type'] not in ['application/x-mpegURL']:
                         videos.append(large_size_video['url'])
-            except:
+            except Exception as e:
+                traceback.print_exc()
                 pass
         
         if len(photos) >= 1:
@@ -128,7 +130,8 @@ def webhook():
 
                         temp_media = [telegram.InputMediaDocument(x) for x in temp]
                         tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
-                except:
+                except Exception as e:
+                    traceback.print_exc()
                     pass
 
         if len(videos) >= 1:
@@ -140,7 +143,8 @@ def webhook():
                     else:
                         temp_media = [telegram.InputMediaDocument(x) for x in temp]
                         tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
-                except:
+                except Exception as e:
+                    traceback.print_exc()
                     pass
         
     return ('', HTTPStatus.OK)
