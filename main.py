@@ -122,44 +122,32 @@ def webhook():
         if len(photos) >= 1:
             temp_photos = [photos[x:x+10] for x in range(0, len(photos), 10)]
             for temp in temp_photos:
-                for _ in range(5):
-                    try:
-                        if len(temp) == 1:
-                            tg_bot.send_photo(backup_chat_id, temp[0])
-                            tg_bot.send_document(backup_chat_id, temp[0])
-                        else:
-                            temp_media = [telegram.InputMediaPhoto(x) for x in temp]
-                            tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
-
-                            temp_media = [telegram.InputMediaDocument(x) for x in temp]
-                            tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
-                    except telegram.error.RetryAfter as e:
-                        traceback.print_exc()
-                        time.sleep(e.retry_after)
-                    except Exception as e:
-                        traceback.print_exc()
-                        pass
+                try:
+                    if len(temp) == 1:
+                        tg_bot.send_photo(backup_chat_id, temp[0])
+                        tg_bot.send_document(backup_chat_id, temp[0])
                     else:
-                        break
+                        temp_media = [telegram.InputMediaPhoto(x) for x in temp]
+                        tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
+
+                        #temp_media = [telegram.InputMediaDocument(x) for x in temp]
+                        #tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
+                except Exception as e:
+                    traceback.print_exc()
+                    pass
 
         if len(videos) >= 1:
             temp_videos = [videos[x:x+10] for x in range(0, len(videos), 10)]
             for temp in temp_videos:
-                for _ in range(5):
-                    try:
-                        if len(temp) == 1:
-                            tg_bot.send_document(backup_chat_id, temp[0])
-                        else:
-                            temp_media = [telegram.InputMediaDocument(x) for x in temp]
-                            tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
-                    except telegram.error.RetryAfter as e:
-                        traceback.print_exc()
-                        time.sleep(e.retry_after)
-                    except Exception as e:
-                        traceback.print_exc()
-                        pass
+                try:
+                    if len(temp) == 1:
+                        tg_bot.send_document(backup_chat_id, temp[0])
                     else:
-                        break
+                        temp_media = [telegram.InputMediaDocument(x) for x in temp]
+                        tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
+                except Exception as e:
+                    traceback.print_exc()
+                    pass
         
     return ('', HTTPStatus.OK)
 
