@@ -84,7 +84,7 @@ def webhook():
 
     request_json = request.get_json()
     logger.info('test')
-    #print(json.dumps(request_json, indent=2, sort_keys=True))
+    print(json.dumps(request_json, indent=2, sort_keys=True))
 
     favorite_events = request_json.get('favorite_events', [])
     for event in favorite_events:
@@ -96,11 +96,6 @@ def webhook():
             tg_bot.send_message(chat_id, url)
             tg_bot.send_message(backup_chat_id, url)
 
-        # upload all pics to tg
-        # event['extended_entities']['media'][0]['media_url_https']
-        # video: "type": "video", event['extended_entities']['media'][0]['video_info']['variants']
-
-        # photo
         extended_entities = event['favorited_status'].get('extended_entities', [])
         medias = extended_entities.get('media', [])
         photos = []
