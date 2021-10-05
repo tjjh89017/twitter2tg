@@ -129,6 +129,9 @@ def webhook():
                     else:
                         temp_media = [telegram.InputMediaPhoto(x) for x in temp]
                         tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
+
+                        temp_media = [telegram.InputMediaDocument(x) for x in temp]
+                        tg_bot.send_media_group(backup_chat_id, temp_media, timeout=1000)
                 except:
                     pass
 
