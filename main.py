@@ -104,7 +104,13 @@ def webhook():
                 if media['type'] == 'photo':
                     photos.append(media['media_url_https'] + "?name=large")
                 elif media['type'] == 'video':
-                    videos.append(media['video_info']['variants'][0]['url'])
+                    large_size_video = media['video_info']['variants'][0]
+                    large_size_video['bitrate'] = 0
+                    for x in media['video_info']['variants']:
+                        if x['bitrate'] > large_size_video['bitrate']:
+                            large_size_video = x
+                    if large_size_video['content_type'] not in ['application/x-mpegURL']:
+                        videos.append(large_size_video['url'])
             except:
                 pass
         
