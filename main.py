@@ -130,8 +130,8 @@ def webhook():
         #    print(url)
         #    tg_bot.send_message(chat_id, url)
         #    tg_bot.send_message(backup_chat_id, url)
-        screen_name = event['user']['screen_name']
-        post_id = event['id_str']
+        screen_name = event['favorited_status']['user']['screen_name']
+        post_id = event['favorited_status']['id_str']
         url = f'https://twititer.com/{screen_name}/status/{post_id}'
         tg_bot.send_message(chat_id, url)
         tg_bot.send_message(backup_chat_id, url)
