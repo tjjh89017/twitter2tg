@@ -35,6 +35,19 @@ app = Flask(__name__)
 app.secret_key = FLASK_SECRET_KEY
 
 oauth = OAuth(app)
+oauth.register(
+    name='twitter',
+    client_id=API_KEY,
+    client_secret=API_SECRET,
+    request_token_url='https://api.twitter.com/oauth/request_token',
+    request_token_params=None,
+    access_token_url='https://api.twitter.com/oauth/access_token',
+    access_token_params=None,
+    authorize_url='https://api.twitter.com/oauth/authenticate',
+    authorize_params=None,
+    api_base_url='https://api.twitter.com/1.1/',
+    client_kwargs=None,
+)
 
 class Twitter2tg():
     def __init__(self):
@@ -67,19 +80,6 @@ def index():
 
 @app.route('/twitter')
 def twitter():
-    oauth.register(
-        name='twitter',
-        client_id=API_KEY,
-        client_secret=API_SECRET,
-        request_token_url='https://api.twitter.com/oauth/request_token',
-        request_token_params=None,
-        access_token_url='https://api.twitter.com/oauth/access_token',
-        access_token_params=None,
-        authorize_url='https://api.twitter.com/oauth/authenticate',
-        authorize_params=None,
-        api_base_url='https://api.twitter.com/1.1/',
-        client_kwargs=None,
-    )
     redirect_uri = url_for('twitter_auth', _external=True)
     return oauth.twitter.authorize_redirect(redirect_uri)
 
