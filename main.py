@@ -88,7 +88,7 @@ def twitter_auth():
     print("### auth")
     token = oauth.twitter.authorize_access_token()
     print(token)
-    r = oauth.twitter.get('/account_activity/all/:devel/subscriptions.json')
+    r = oauth.twitter.get('account_activity/all/:devel/subscriptions.json')
     print(r.json())
 
     return redirect('/')
