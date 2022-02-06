@@ -93,7 +93,7 @@ def twitter_auth():
 
     # subscribe
     api = TwitterAPI(API_KEY, API_SECRET, token['oauth_token'], token['oauth_token_secret'])
-    r = api.request('account_activity/all/:devel/subscriptions/add', None, None, "POST")
+    r = api.request('account_activity/all/:devel/subscriptions', None, None, "POST")
     print(r.json())
 
 
