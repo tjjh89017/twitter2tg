@@ -123,18 +123,19 @@ def webhook():
 
     favorite_events = request_json.get('favorite_events', [])
     for event in favorite_events:
-        #urls = set()
-        #urls.update([x['url'] for x in event['favorited_status']['entities'].get('urls', [])])
-        #urls.update([x['url'] for x in event['favorited_status']['entities'].get('media', [])])
-        #for url in urls:
-        #    print(url)
-        #    tg_bot.send_message(chat_id, url)
-        #    tg_bot.send_message(backup_chat_id, url)
-        screen_name = event['favorited_status']['user']['screen_name']
-        post_id = event['favorited_status']['id_str']
-        url = f'https://twititer.com/{screen_name}/status/{post_id}'
-        tg_bot.send_message(chat_id, url)
-        tg_bot.send_message(backup_chat_id, url)
+        urls = set()
+        urls.update([x['url'] for x in event['favorited_status']['entities'].get('urls', [])])
+        urls.update([x['url'] for x in event['favorited_status']['entities'].get('media', [])])
+
+        if not urls:
+            screen_name = event['favorited_status']['user']['screen_name']
+            post_id = event['favorited_status']['id_str']
+            urls.update(f'https://twititer.com/{screen_name}/status/{post_id}')
+
+        for url in urls:
+            print(url)
+            tg_bot.send_message(chat_id, url)
+            tg_bot.send_message(backup_chat_id, url)
 
         extended_entities = event['favorited_status'].get('extended_entities', {})
         extended_tweet_extended_entities = event['favorited_status'].get('extended_tweet', {}).get('extended_entities', {})
