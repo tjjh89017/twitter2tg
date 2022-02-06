@@ -19,6 +19,7 @@ from authlib.integrations.flask_client import OAuth
 
 import telegram
 
+FLASK_SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', None)
 API_KEY = os.environ.get('API_KEY', None)
 API_SECRET = os.environ.get('API_SECRET', None)
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', None)
@@ -31,6 +32,7 @@ logging.basicConfig(stream=sys.stdout, format='%(asctime)s - %(name)s - %(leveln
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+app.secret_key = FLASK_SECRET_KEY
 
 oauth = OAuth(app)
 
