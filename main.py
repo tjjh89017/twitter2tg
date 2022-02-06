@@ -119,7 +119,7 @@ def webhook():
 
     request_json = request.get_json()
     logger.info('test')
-    #print(json.dumps(request_json, indent=2, sort_keys=True))
+    print(json.dumps(request_json, indent=2, sort_keys=True))
 
     favorite_events = request_json.get('favorite_events', [])
     for event in favorite_events:
