@@ -56,7 +56,7 @@ class Twitter2tg():
         self.chat_id = -1001363258590
         self.backup_chat_id = -1001490525541
 
-        self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+        #self.api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         self.bot = telegram.Bot(TELEGRAM_TOKEN)
 
     def get_api(self):
@@ -90,6 +90,13 @@ def twitter_auth():
     print(token)
     r = oauth.twitter.get('account/verify_credentials.json')
     print(r.json())
+
+    # subscribe
+    api = TwitterAPI(API_KEY, API_SECRET, token['oauth_token'], token['oauth_token_secret'])
+    r = api.request('account_activity/all/:devel/subscriptions/add', None, None, "POST")
+    print(r.json())
+
+
     return redirect('/')
 
 @app.route('/webhook/twitter', methods=["GET"])
