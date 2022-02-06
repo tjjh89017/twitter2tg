@@ -130,7 +130,7 @@ def webhook():
         if not urls:
             screen_name = event['favorited_status']['user']['screen_name']
             post_id = event['favorited_status']['id_str']
-            urls.update(f'https://twititer.com/{screen_name}/status/{post_id}')
+            urls.update([f'https://twititer.com/{screen_name}/status/{post_id}'])
 
         for url in urls:
             print(url)
