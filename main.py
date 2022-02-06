@@ -13,8 +13,9 @@ import traceback
 import time
 
 from http import HTTPStatus
-from flask import Flask, request
+from flask import Flask, request, url_for, redirect
 from TwitterAPI import TwitterAPI
+from authlib.integrations.flask_client import OAuth
 
 import telegram
 
@@ -30,6 +31,8 @@ logging.basicConfig(stream=sys.stdout, format='%(asctime)s - %(name)s - %(leveln
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+
+oauth = OAuth(app)
 
 class Twitter2tg():
     def __init__(self):
@@ -59,6 +62,33 @@ class Twitter2tg():
 @app.route('/')
 def index():
     return 'Hello World!'
+
+@app.route('/twitter')
+def twitter():
+    oauth.register(
+        name='twitter',
+        client_id=API_KEY,
+        client_secret=API_SECRET,
+        request_token_url='https://api.twitter.com/oauth/request_token',
+        request_token_params=None,
+        access_token_url='https://api.twitter.com/oauth/access_token',
+        access_token_params=None,
+        authorize_url='https://api.twitter.com/oauth/authenticate',
+        authorize_params=None,
+        api_base_url='https://api.twitter.com/1.1/',
+        client_kwargs=None,
+    )
+    redirect_uri = url_for('twitter_auth', _external=True)
+    return oauth.twitter.authorize_redirect(redirect_uri)
+
+@app.route('/twitter/auth')
+def twitter_auth():
+    print("### auth")
+    token = oauth.twitter.authorize_access_token()
+    print(token)
+    r = oauth.twitter.get('account/verify_credentials.json')
+    print(r.json())
+    return redirect('/')
 
 @app.route('/webhook/twitter', methods=["GET"])
 def webhook_crc():
