@@ -88,14 +88,8 @@ def twitter_auth():
     print("### auth")
     token = oauth.twitter.authorize_access_token()
     print(token)
-    r = oauth.twitter.get('account/verify_credentials.json')
+    r = oauth.twitter.get('/account_activity/all/:env_name/subscriptions.json')
     print(r.json())
-
-    # subscribe
-    api = TwitterAPI(API_KEY, API_SECRET, token['oauth_token'], token['oauth_token_secret'])
-    r = api.request('account_activity/all/:devel/subscriptions', None, None, "POST")
-    print(r.json())
-
 
     return redirect('/')
 
