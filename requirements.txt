@@ -1,3 +1,4 @@
+Authlib
 cryptography
 Flask
 gunicorn
