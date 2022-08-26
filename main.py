@@ -52,7 +52,7 @@ oauth.register(
 class Twitter2tg():
     def __init__(self):
         self.api = None
-        self.url = 'https://twitter2tg.herokuapp.com/webhook/twitter/'
+        self.url = 'https://twitter2tg.onrender.com/webhook/twitter/'
         self.chat_id = -1001363258590
         self.backup_chat_id = -1001490525541
 

@@ -1,7 +1,6 @@
 from TwitterAPI import TwitterAPI
 
 import os
-import json
 
 CONSUMER_KEY = os.environ.get('API_KEY', None)
 CONSUMER_SECRET = os.environ.get('API_SECRET', None)
@@ -9,15 +8,12 @@ CONSUMER_SECRET = os.environ.get('API_SECRET', None)
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', None)
 ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET', None)
 
-#The environment name for the beta is filled below. Will need changing in future		
-ENVNAME = 'prod'
-WEBHOOK_URL = 'https://twitter2tg.onrender.com/webhook/twitter'
+ENVNAME = os.environ.get('ENVNAME', 'prod')
 
 twitterAPI = TwitterAPI(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
-#r = twitterAPI.request('account_activity/all/:%s/webhooks' % ENVNAME, {'url': WEBHOOK_URL})
+r = twitterAPI.request('account_activity/all/:%s/subscriptions' %
+                       ENVNAME, None, None, "POST")
 
-r = twitterAPI.request('account_activity/all/webhooks')
-
+#TODO: check possible status codes and convert to nice messages
 print (r.status_code)
-print (r.text)
