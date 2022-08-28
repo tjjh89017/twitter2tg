@@ -11,11 +11,11 @@ ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET', None)
 
 #The environment name for the beta is filled below. Will need changing in future		
 ENVNAME = 'prod'
-WEBHOOK_URL = os.environ.get('WEBHOOK', None)
+WEBHOOK_URL = 'https://twitter2tg.onrender.com/webhook/twitter'
 
-twitterAPI = TwitterAPI(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+twitterAPI = TwitterAPI(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET, auth_type='oAuth1')
 
-r = twitterAPI.request('account_activity/all/:prod/webhooks', {'url': WEBHOOK_URL + "/webhook/twitter"})
+r = twitterAPI.request('account_activity/all/:prod/webhooks/:1563582223533903874', None, None, method_override="PUT")
 
 print (r.status_code)
 print (r.text)

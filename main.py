@@ -19,7 +19,8 @@ from authlib.integrations.flask_client import OAuth
 
 import telegram
 
-FLASK_SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', None)
+#FLASK_SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', None)
+FLASK_SECRET_KEY = os.urandom(24)
 API_KEY = os.environ.get('API_KEY', None)
 API_SECRET = os.environ.get('API_SECRET', None)
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', None)
@@ -52,7 +53,7 @@ oauth.register(
 class Twitter2tg():
     def __init__(self):
         self.api = None
-        self.url = 'https://twitter2tg.onrender.com/webhook/twitter/'
+        #self.url = 'https://twitter2tg.onrender.com/webhook/twitter/'
         self.chat_id = -1001363258590
         self.backup_chat_id = -1001490525541
 
@@ -80,7 +81,7 @@ def index():
 
 @app.route('/twitter')
 def twitter():
-    redirect_uri = url_for('twitter_auth', _external=True)
+    redirect_uri = url_for('twitter_auth', _external=True, _scheme='https')
     return oauth.twitter.authorize_redirect(redirect_uri)
 
 @app.route('/twitter/auth')
